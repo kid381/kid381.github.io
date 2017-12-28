@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   
-  <title>一次R语言代码优化经历 | Hexo</title>
+  <title>一次R语言代码优化经历 | 杨颉(Jie Yang)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
 <meta name="keywords" content="apply,data.frame,data.table,R">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一次R语言代码优化经历">
 <meta property="og:url" content="http://yoursite.com/2017/06/04/rlearning/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="杨颉(Jie Yang)">
 <meta property="og:description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
 <meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure1.png">
 <meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure2.png">
@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
 <meta name="twitter:image" content="http://oj6t7o82y.bkt.clouddn.com/figure1.png">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="杨颉(Jie Yang)" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -67,7 +67,7 @@
     </div>
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">杨颉(Jie Yang)</a>
       </h1>
       
     </div>
@@ -135,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/04/rlearning/" data-id="cjbqunbcu00068o8vw02ifj8s" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/06/04/rlearning/" data-id="cjbqvimuj000ano8v2rf9gab6" class="article-share-link">分享</a>
       
       
       
@@ -284,7 +284,7 @@
   
   <div class="outer">
     <div id="footer-left">
-      &copy; 2014 - 2017 John Doe&nbsp;|&nbsp;
+      &copy; 2014 - 2017 Jie Yang&nbsp;|&nbsp;
       主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
     </div>
      <div id="footer-right">
