@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一次R语言代码优化经历 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
+<meta name="keywords" content="apply,data.frame,data.table,R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次R语言代码优化经历">
+<meta property="og:url" content="http://yoursite.com/2017/06/04/rlearning/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
+<meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure1.png">
+<meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure2.png">
+<meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure3.png">
+<meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure4.png">
+<meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/figure5.png">
+<meta property="og:updated_time" content="2017-12-28T18:46:06.372Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次R语言代码优化经历">
+<meta name="twitter:description" content="猜一猜在写实证论文时，最需要花时间的是哪个环节？ 做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。 新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收">
+<meta name="twitter:image" content="http://oj6t7o82y.bkt.clouddn.com/figure1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-rlearning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/04/rlearning/" class="article-date">
+  <time datetime="2017-06-04T14:45:53.000Z" itemprop="datePublished">2017-06-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/学术/">学术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一次R语言代码优化经历
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>猜一猜在写实证论文时，最需要花时间的是哪个环节？</p>
+<p>做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。</p>
+<p>新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收集数据时，新人们才会意识到，他们深深的错了……当然，如果你的第一个项目是老板或者师兄/师姐给的数据，那你当我没说。不过，有再好的师兄/师姐有一天也需要开始做自己的项目的是不是。:-D</p>
+<p>在这个问题上，我有一点点微不足道的人生经验（微笑脸）。我的体会是，和做分析和写论文的时间比起来，收集原始数据和将数据整理成可用的状态总是需要“’糟蹋”更多的时间，两者之差，甚至不可以道里计。</p>
+<p>尴尬的是，由于我们在计量课上使用的都是清洗完毕了的数据，我们整理数据的技能通常是匮乏的。（想象一下吧，如果全世界的数据都长成mtcars那样，这个世界将会多么地美好！）每每我做论文时，我自己就经常会出现“这个数据我今晚就能整理完”的幻觉……</p>
+<p>本文源自于我的亲身（血泪）经历，主要面对的是商学院及其他社会科学专业的、编程基础薄弱的同学。社科专业的博士生们出身文科的居多，本科阶段并没有经历很好的编程训练。（包括我自己。）至于数据科学家们，就不用看下去啦。</p>
+<p>具体案例是这样的：这是利用某电影数据库的一个研究项目。为了计算导演和演员的影响力（director/star power）对票房（box office）的影响，需要计算每个导演过去五年导演电影的总票房和每个演员过去五年参演电影的平均票房。这个指标来自Moul (2007)和Zhao, Ishihara, and Lounsbury (2013)。经过初步的数据处理，我现在有两张表：导演表和演员表，表的形状大概是这样：</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/figure1.png" alt=""></p>
+<p>597行表示导演462181参与了电影2825568，这部电影在1988年5月25日上映，并且获得了1亿9百万的票房收入。</p>
+<p>计算思路很简单，person_id是唯一的，针对597行的导演（person_id=462181），找到他/她5年以内所有的记录，加总票房收入（gross）就可以了。我的心中洋溢着幸福的泡泡，飞快的写了以下这个（槽点满满的）函数：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本一##<br>power.estimate&lt;- function(table, date, gross, type, n) {<br>  temp&lt;- table[table$person_id==table[n,”person_id”],] #提取第n行的导演的id，找到该导演的所有记录，存入temp表<br>  temp&lt;- temp[temp[rownames(temp)==n,date]-temp[,date]&gt;0 &amp; temp[rownames(temp)==n,date]-temp[,date]&lt;1825, ] #仅保存五年以内的记录<br>  temp&lt;- temp[complete.cases(temp[,gross]),]<br>  ifelse(type==”director”,<br>         power[n]&lt;&lt;- sum(temp[,gross]),<br>         power[n]&lt;&lt;- sum(temp[,gross]/nrow(temp))) #导演的号召力是票房记录加总，演员的号召力则是票房纪录的平均值，若没有记录，则号召力设为0<br>  result&lt;-list(n, power[n]) #通过列表得知当前计算到哪了。<br>  return(result)<br>}</pre><br>每运行一次就是计算第n行导演在当时的影响力。每次用这个函数之前，必须设置了一个n行向量power，把每次计算得出的结果填充到power的第n行。在函数外再设置一个从1到n的for循环，就可以遍历全表了。</p>
+<p>这里也可以把power定义到函数里。但是这样每次都必须给power重新定义一遍，速度会拖慢，因此不建议这样做。</p>
+<p>我喜滋滋地试跑了前1000行，得到了如下懵逼的结果。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">power&lt;- rep(NA, nrow(director), mode=”numeric”)<br>system.time(for (y in 1:1000)<br>  print(power.estimate(director, “date.release”, “gross”, “director”, y))<br>  )</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure2.png" alt=""></p>
+<p>1000个记录就要37.93秒。我的导演表有97万行，演员表有380万行，都跑完分别需要<strong>10个半</strong>和<strong>42个小时</strong>啊我摔！</p>
+<p>静下心来分析了一下问题在哪里。感觉是不是表太大了？听说data.frame在跑for循环的时候好像会很慢，要不找找加速的方法？</p>
+<p>研究了一番，决定使用data.table包来处理，通过data.table，可以建立索引，这样在进行查询时速度就会大大加快了。找到网上的data.table教程，匆匆学习了一个小时，我美滋滋地写下来第二个版本：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本二##<br>power.estimate &lt;- function(table, date, gross, type, n) {<br>  temp &lt;- table[person_id == table[n,person_id]]<br>  temp &lt;- temp[table[n]$date-temp$date &gt; 0 &amp; table[n]$date-temp$date &lt; 1825]<br>  ifelse(nrow(temp) == 0,<br>         power[n] &lt;&lt;- 0,<br>         ifelse(type == “director”,<br>                power[n] &lt;&lt;- sum(temp$gross, na.rm = TRUE),<br>                ifelse(sum(!is.na(temp$gross)) == 0,<br>                       power[n] &lt;&lt;- 0,<br>                       power[n] &lt;&lt;- sum(temp$gross, na.rm = TRUE)/sum(!is.na(temp$gross))<br>                       )<br>                )<br>         )<br>  result&lt;-list(n, power[n])<br>  return(result)<br>  }</pre><br>和第一个版本相比并没有太多变化，只是使用$符号让代码可读性提高了一点而已。在使用程序之前，需要定义一下data.table。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">library(data.table)<br>director&lt;- data.table(data.frame(director), key=c(“person_id”, “movie_id”)) #定义data.table，设置索引。</pre><br>接下来，让我们愉快地测试一下有没有性能提升吧！</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">power&lt;- rep(NA, nrow(director), mode=”numeric”)<br>system.time(<br>  for (y in 1:1000) print(power.estimate(director, “date.release”, “gross”, “director”, y))<br>  )</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure3.png" alt=""></p>
+<p>现在1000条记录只需要5.11秒了！和上一个版本相比，快了7倍还不止！照这个速度下去，97万的表和380万的表分别只需要<strong>1个半</strong>和<strong>5个半小时</strong>。</p>
+<p>5个半小时算一个变量，基本上也是可以接受的了。但是万一还需要算十个、二十个这样的变量呢？考虑到以后还需要用很多次这个函数，我决定再想想其他办法。</p>
+<p>要不把for函数换成apply族函数？之前坚持用for的原因是它直观上更容易理解。而且在数据量小时，多等几秒也没什么大不了的。但是for有缺点，就是在大表下for循环的速度会明显变慢。因此一般R语言的教材都极力推荐apply族函数。我的第三版函数长这样：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本三##<br>power.estimate &lt;- function(x, table, date, gross, type) {<br>  temp&lt;- table[person_id == as.integer(x[“person_id”])]<br>  debut &lt;- as.Date(x[date], “%Y-%m-%d”)<br>  temp &lt;- temp[temp$date &lt; debut &amp; debut &lt; temp$date+1825]<br>  ifelse(nrow(temp) == 0,<br>         power&lt;- 0, #power==0 if no previous records.<br>         ifelse(type == “director”,<br>                power&lt;- sum(temp$gross, na.rm= TRUE),<br>                ifelse(sum(!is.na(temp$gross))==0, # in case all available gross records are NAs.<br>                       power &lt;- 0,<br>                       power &lt;- sum(temp$gross, na.rm = TRUE)/sum(!is.na(temp$gross))<br>                       )<br>                )<br>         )<br>  return(power)<br>  }</pre><br>和第二个版本相比有两个改进。一是power不需要事先定义全局变量power；二是不需要设置循环数n。把函数输出的结果赋值给power就可以了。让我们看看前1000行效果速度如何。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">system.time(<br>  power&lt;- apply(director[1:1000], 1, power.estimate, table=director, date=”date.release”, gross = “gross”, type=”director”)<br>  )  #计算前1000列，输出结果给power。</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure4.png" alt=""></p>
+<p>1000列只花了2.39秒！和第二个版本相比，速度又快了一倍还不止。算完整个导演表和演员表，分别只需要<strong>40分钟</strong>和<strong>2个半小时</strong>。</p>
+<p>最后让我们总结一下三种版本的函数所需耗时吧。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/figure5.png" alt=""></p>
+<p><strong>结论：</strong>当需要遍历大表计算某个变量时，一定要用data.table包和apply组函数！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/04/rlearning/" data-id="cjbquk0ri000fg48vmzhwhmek" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R/">R</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apply/">apply</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-frame/">data.frame</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-table/">data.table</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/10/aom2017/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          参加AOM年会是什么样的体验
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/25/montreal375/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">375周年的蒙特利尔</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/12/27/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/">R语言data.table包中的一个小坑</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/aom2017/">参加AOM年会是什么样的体验</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/04/rlearning/">一次R语言代码优化经历</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/montreal375/">375周年的蒙特利尔</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2017 John Doe&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;youemail@outlook.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842688ce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

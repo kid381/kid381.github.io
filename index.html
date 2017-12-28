@@ -102,7 +102,447 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/27/hello-world/" data-id="cjbpj4jtq0000jk8vu9l7bnph" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/12/27/hello-world/" data-id="cjbquk0ri000ag48v7xnnvk2m" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/" class="article-date">
+  <time datetime="2017-09-09T02:14:05.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/学术/">学术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/">R语言data.table包中的一个小坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>data.table包可以大幅度提高R语言数据处理速度，这个好处我在很久以前的一篇文章中提到过了（<a href="http://yang7.net/2017/06/04/rlearning/" target="_blank" rel="noopener">http://yang7.net/2017/06/04/rlearning/</a>）。自从意识到读取大文件data.table的fread()比默认的read.csv()快多了之后，我就一直使用fread读csv文件。可是今天，我发现fread()隐藏了一个小坑，可能会改变数据结果。</p>
+<p>事情经过是这样：我读取了一个csv格式表格。</p>
+<p>使用别的工具打开源文件，某一列的显示类似是这样的：</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/rdatatable1.png" alt=""></p>
+<p>我在R里打开这个数据：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="generic">library(data.table)<br>test&lt;- fread(“test.csv”, row.name = FALSE)</pre><br>结果它给我显示的是这个：</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/rdatatable2.png" alt=""></p>
+<p>也就是说，第二列数据（var2）显示完全错误，变成了用科学计数法显示的特别小的数。</p>
+<p>坑叔叔呢？检查变量属性之后发现不太对：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-theme="enlighter"> &gt; class(test$var2)<br>[1] “integer64”</pre><br>原来是fread带了一个integer64的参数，在默认情况下，当碰上大于2^31的数时会调用bit64包，把变量转化为64位整数。关于这个参数的介绍可以看这个页面（<a href="https://www.rdocumentation.org/packages/data.table/versions/1.10.4/topics/fread" target="_blank" rel="noopener">https://www.rdocumentation.org/packages/data.table/versions/1.10.4/topics/fread</a>）。果然，当我关掉这个选项后，数字显示正常了。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">mkt.space&lt;- fread(“market.space.csv”, integer64 = “numeric”)</pre><br>可是，默认只有在数字非常大的时候，data.table才会转换成64位数，在我的案例里，我的数字远没有达到2的31次方的程度。为什么还出现这个问题呢？我也不知道。可能是data.table的一个bug？也许有读者可以帮忙解答？</p>
+<p><strong>小结：用fread()读完数据之后，记得用summary()命令看一下数据，多看一眼也许能挽救一个model，拯救一个model也许就能挽回一篇paper哦。</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/" data-id="cjbquk0ri000cg48vnkabqjq1" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-aom2017" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/10/aom2017/" class="article-date">
+  <time datetime="2017-08-10T04:27:59.000Z" itemprop="datePublished">2017-08-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/学术/">学术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/10/aom2017/">参加AOM年会是什么样的体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>管理学会年会（AOM, Academy of Management Annual Meeting）是管理学术界规模最大、涵盖学科领域最广的会议，每年参加的学者有一万人之多。今年年会在亚特兰大召开。教授们都很忙，对于组织行为、人力资源、战略管理、组织理论等方向的资深学者来说，每年的大会是和老朋友会面的好时候；对于低年级的博士汪来说，大会是认识合作者（co-author），发水论文攒经验值的大好时机；对于高年级的博士汪而言，则是建立关系（connection）、找教职的重要窗口。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/aom2.jpg" alt=""></p>
+<p><img src="https://pic2.zhimg.com/v2-ef2d9e040c11faf3fa54f83fd35b1261_b.jpg" alt=""><sub>注：到会场第一件事是打印铭牌。会场的一角摆着各个学部（division）的贴纸，可以把自己所属的学部贴到铭牌上。</sub></p>
+<h2 id="博士汪们参加AOM都能做什么？"><a href="#博士汪们参加AOM都能做什么？" class="headerlink" title="博士汪们参加AOM都能做什么？"></a><strong>博士汪们参加AOM都能做什么？</strong></h2><p>我的手上刚拿了一份今年的日程介绍。这是一本440页厚的书，用薄薄的新闻纸印成。考虑到会议只有五天，可以参加的活动可谓丰富。大致说来，对博士汪们有用的是以下五项。</p>
+<p><em>一、宣讲文章（paper session），兜售论文。</em></p>
+<p>这大概是AOM最主要的功能了。AOM上宣讲的论文分为两种，一种是Traditional paper sessions。每个session一般由三到四篇主题类似的文章构成，每篇文章有20分钟时间。演讲者花15分钟讲完，然后围观者发表意见（pen zhi）。另一种是Disscussion paper sessions，也是由四五篇文章组成，区别是参与者必须事先读完他人的文章，到会议当天直接坐一圈开始讨论（kai pen）。</p>
+<p>曾几何时，AOM的文章质量还很高，投顶级期刊的文章一般会先到AOM上溜一圈；最近几年稿件质量滑坡了，许多文章写好之后直接投杂志。偶尔能看到水平很差的文章也能被AOM接收的。</p>
+<p>尽管如此，AOM仍然是博士生们刷经验值的首选。准备present的过程往往就是自我提升的过程。为了不被问得难堪，必须清楚了解自己文章的优缺点并进行改进；在present中学到的应付棘手问题的技巧，也可以用于以后的面试（campus visit）中；在大多数时候，听众给的意见也会对文章修改有所帮助。</p>
+<p><em>二、参加工作坊（workshop），捕捉前沿。</em></p>
+<p>好的管理学杂志发表周期都十分漫长，最新发表的文章也已经是作者四五年前的成果了。参加workshop，了解关注的学者最近都在干什么，可以猜测出学术的前沿和发展趋势。除此以外，学者们在workshop上一般乐于分享自己的切身经验，对于新人们的学术发展大有裨益。我今天参加了一个workshop叫Using Sport Data to Advance Management Theory，四名正值高产期的学者分享了他们使用职业体育领域数据的经验。一般来说，使用NBA、F1之类的数据来进行管理学研究有一个缺点，那就是研究结论的外部效度（external validity）很低。直白地讲就是，在职业体育行业得到的研究结论未必能推广到其他情境中。这几名学者着重就普世性问题（generalizability）提供了对付审稿人的经验，对我启发很大。草草地扫了一眼他们的文章，写得都很好，都发到了顶级期刊。</p>
+<p><em>三、去博士汪论坛（doctoral consortium），互吐苦水（亦或是口水）。</em></p>
+<p>博士汪的生活是单调而艰难的。大部分商学院项目一年只招五到十人，分到每个领域（Marketing/OB/Strategy/Finance/Accounting）里只有一到两人。由此可见博士汪们碰到同道能有多难。参加博士生论坛是认识做相似课题的同类的大好机会。旺财见老乡，两眼泪汪汪。我自己的领域是Category spanning，在谷歌学术里粗粗一搜，发现最近几年只有两个人做过相关课题。试想全世界里没几个人（包括你奶奶）了解你在干什么，突然你在学术会议上发现了懂得你研究的闪光点和软肋的人，你的心情是怎样的？这种小同行之间的交流，对研究的推进有很大作用。</p>
+<p><em>四、找工作面试。</em></p>
+<p>AOM提供了placement service。和AEA（美国经济学会）类似，AOM也是各大院校集中招聘的时节。最近几年国内商学院都在推进国际化，给海归的待遇也开始向国际水平看齐。随着待遇的提高，招聘的要求也水涨船高。与此同时，许多院校开始推行常任轨制度。毕业生入职签三到六年合同，时间一到开始考核，发够了留下，没发够就收拾包袱走人。本汪从会场出来的时候，正碰上某top学校负责招聘的L老师。我问TA现在学校招聘要求是什么样的了，此君笑曰：不管学校好坏，只要发了ASQ的一定要。我心中顿时一万匹野狗奔腾。国内似乎还没有人发过ASQ……</p>
+<p><em>五、社交（social）或者纯粹就是玩。</em></p>
+<p>参会之余，可以去主办地的名胜游览一番。今年在亚特兰大，没什么可玩的地方；去年在Anaheim，边上就是迪士尼乐园；前年在温哥华，会场正对着温哥华湾，风景怡人。出来开会不仅自己玩心大动，各个学部还会组织出去玩的session。散步、慢跑、瑜伽，不一而足。OMT学部里U of Alberta的大佬比较多，写作此文当日，正有Alberta的博士生在微信群里推销OMT组织的可口可乐展览馆之旅。</p>
+<h2 id="博士汪们为什么参加AOM？"><a href="#博士汪们为什么参加AOM？" class="headerlink" title="博士汪们为什么参加AOM？"></a><strong>博士汪们为什么参加AOM？</strong></h2><p>基于前面提到的五点，参加AOM对博士汪们有好处就是不言自明的事情了。还有其他好处吗？非要说的话，也有。</p>
+<p>第一、对于适合学术研究的人来说，参加会议可以给自己打一针鸡血；对于误入学术圈的羔羊们，参加会议可以让他们体验学术生活的全貌，让不适合的人尽早退出。</p>
+<p>第二、可以见到平时无从得见的前辈，对于有准备的人，是建立connection的机会。当然，关系都是以实力为基础的。connection不是以得到的名片数衡量的，而是看大牛有多大程度记住了你。</p>
+<p>第三、现实地说，参加会议对毕业有帮助。在国内想要毕业必须发表足够数量的论文，而有的学校把AOM会议论文计入考察范围。一篇会议论文并不算什么，但他们都是种子。用心浇灌，总能在沃土开放的。</p>
+<p>P.S.: 要是能绽放在下图一、五、六列就好了……</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/aom3.jpg" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/10/aom2017/" data-id="cjbquk0r20002g48vaeen98e9" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AOM/">AOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PhD/">PhD</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学术/">学术</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/管理学/">管理学</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-rlearning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/04/rlearning/" class="article-date">
+  <time datetime="2017-06-04T14:45:53.000Z" itemprop="datePublished">2017-06-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/学术/">学术</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/04/rlearning/">一次R语言代码优化经历</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>猜一猜在写实证论文时，最需要花时间的是哪个环节？</p>
+<p>做实证论文嘛，正常的环节无非是这些：阅读文献、提出假设、收集数据、整理数据、建模分析、撰写论文。中间可能有若干循环往复，但大致是按照这个顺序发展的。</p>
+<p>新人们一般会犯的一个错误，就是认为阅读文献和提出假设最花费时间。乍一想确实会觉得有道理：如果发现了可以贡献的理论空白（gap），提出了有趣的假设，一篇研究就“差不多了”。但是当他们确定了数据来源开始收集数据时，新人们才会意识到，他们深深的错了……当然，如果你的第一个项目是老板或者师兄/师姐给的数据，那你当我没说。不过，有再好的师兄/师姐有一天也需要开始做自己的项目的是不是。:-D</p>
+<p>在这个问题上，我有一点点微不足道的人生经验（微笑脸）。我的体会是，和做分析和写论文的时间比起来，收集原始数据和将数据整理成可用的状态总是需要“’糟蹋”更多的时间，两者之差，甚至不可以道里计。</p>
+<p>尴尬的是，由于我们在计量课上使用的都是清洗完毕了的数据，我们整理数据的技能通常是匮乏的。（想象一下吧，如果全世界的数据都长成mtcars那样，这个世界将会多么地美好！）每每我做论文时，我自己就经常会出现“这个数据我今晚就能整理完”的幻觉……</p>
+<p>本文源自于我的亲身（血泪）经历，主要面对的是商学院及其他社会科学专业的、编程基础薄弱的同学。社科专业的博士生们出身文科的居多，本科阶段并没有经历很好的编程训练。（包括我自己。）至于数据科学家们，就不用看下去啦。</p>
+<p>具体案例是这样的：这是利用某电影数据库的一个研究项目。为了计算导演和演员的影响力（director/star power）对票房（box office）的影响，需要计算每个导演过去五年导演电影的总票房和每个演员过去五年参演电影的平均票房。这个指标来自Moul (2007)和Zhao, Ishihara, and Lounsbury (2013)。经过初步的数据处理，我现在有两张表：导演表和演员表，表的形状大概是这样：</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/figure1.png" alt=""></p>
+<p>597行表示导演462181参与了电影2825568，这部电影在1988年5月25日上映，并且获得了1亿9百万的票房收入。</p>
+<p>计算思路很简单，person_id是唯一的，针对597行的导演（person_id=462181），找到他/她5年以内所有的记录，加总票房收入（gross）就可以了。我的心中洋溢着幸福的泡泡，飞快的写了以下这个（槽点满满的）函数：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本一##<br>power.estimate&lt;- function(table, date, gross, type, n) {<br>  temp&lt;- table[table$person_id==table[n,”person_id”],] #提取第n行的导演的id，找到该导演的所有记录，存入temp表<br>  temp&lt;- temp[temp[rownames(temp)==n,date]-temp[,date]&gt;0 &amp; temp[rownames(temp)==n,date]-temp[,date]&lt;1825, ] #仅保存五年以内的记录<br>  temp&lt;- temp[complete.cases(temp[,gross]),]<br>  ifelse(type==”director”,<br>         power[n]&lt;&lt;- sum(temp[,gross]),<br>         power[n]&lt;&lt;- sum(temp[,gross]/nrow(temp))) #导演的号召力是票房记录加总，演员的号召力则是票房纪录的平均值，若没有记录，则号召力设为0<br>  result&lt;-list(n, power[n]) #通过列表得知当前计算到哪了。<br>  return(result)<br>}</pre><br>每运行一次就是计算第n行导演在当时的影响力。每次用这个函数之前，必须设置了一个n行向量power，把每次计算得出的结果填充到power的第n行。在函数外再设置一个从1到n的for循环，就可以遍历全表了。</p>
+<p>这里也可以把power定义到函数里。但是这样每次都必须给power重新定义一遍，速度会拖慢，因此不建议这样做。</p>
+<p>我喜滋滋地试跑了前1000行，得到了如下懵逼的结果。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">power&lt;- rep(NA, nrow(director), mode=”numeric”)<br>system.time(for (y in 1:1000)<br>  print(power.estimate(director, “date.release”, “gross”, “director”, y))<br>  )</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure2.png" alt=""></p>
+<p>1000个记录就要37.93秒。我的导演表有97万行，演员表有380万行，都跑完分别需要<strong>10个半</strong>和<strong>42个小时</strong>啊我摔！</p>
+<p>静下心来分析了一下问题在哪里。感觉是不是表太大了？听说data.frame在跑for循环的时候好像会很慢，要不找找加速的方法？</p>
+<p>研究了一番，决定使用data.table包来处理，通过data.table，可以建立索引，这样在进行查询时速度就会大大加快了。找到网上的data.table教程，匆匆学习了一个小时，我美滋滋地写下来第二个版本：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本二##<br>power.estimate &lt;- function(table, date, gross, type, n) {<br>  temp &lt;- table[person_id == table[n,person_id]]<br>  temp &lt;- temp[table[n]$date-temp$date &gt; 0 &amp; table[n]$date-temp$date &lt; 1825]<br>  ifelse(nrow(temp) == 0,<br>         power[n] &lt;&lt;- 0,<br>         ifelse(type == “director”,<br>                power[n] &lt;&lt;- sum(temp$gross, na.rm = TRUE),<br>                ifelse(sum(!is.na(temp$gross)) == 0,<br>                       power[n] &lt;&lt;- 0,<br>                       power[n] &lt;&lt;- sum(temp$gross, na.rm = TRUE)/sum(!is.na(temp$gross))<br>                       )<br>                )<br>         )<br>  result&lt;-list(n, power[n])<br>  return(result)<br>  }</pre><br>和第一个版本相比并没有太多变化，只是使用$符号让代码可读性提高了一点而已。在使用程序之前，需要定义一下data.table。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">library(data.table)<br>director&lt;- data.table(data.frame(director), key=c(“person_id”, “movie_id”)) #定义data.table，设置索引。</pre><br>接下来，让我们愉快地测试一下有没有性能提升吧！</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">power&lt;- rep(NA, nrow(director), mode=”numeric”)<br>system.time(<br>  for (y in 1:1000) print(power.estimate(director, “date.release”, “gross”, “director”, y))<br>  )</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure3.png" alt=""></p>
+<p>现在1000条记录只需要5.11秒了！和上一个版本相比，快了7倍还不止！照这个速度下去，97万的表和380万的表分别只需要<strong>1个半</strong>和<strong>5个半小时</strong>。</p>
+<p>5个半小时算一个变量，基本上也是可以接受的了。但是万一还需要算十个、二十个这样的变量呢？考虑到以后还需要用很多次这个函数，我决定再想想其他办法。</p>
+<p>要不把for函数换成apply族函数？之前坚持用for的原因是它直观上更容易理解。而且在数据量小时，多等几秒也没什么大不了的。但是for有缺点，就是在大表下for循环的速度会明显变慢。因此一般R语言的教材都极力推荐apply族函数。我的第三版函数长这样：</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">##用于计算导演号召力（director power）和明星号召力（star power）的函数，版本三##<br>power.estimate &lt;- function(x, table, date, gross, type) {<br>  temp&lt;- table[person_id == as.integer(x[“person_id”])]<br>  debut &lt;- as.Date(x[date], “%Y-%m-%d”)<br>  temp &lt;- temp[temp$date &lt; debut &amp; debut &lt; temp$date+1825]<br>  ifelse(nrow(temp) == 0,<br>         power&lt;- 0, #power==0 if no previous records.<br>         ifelse(type == “director”,<br>                power&lt;- sum(temp$gross, na.rm= TRUE),<br>                ifelse(sum(!is.na(temp$gross))==0, # in case all available gross records are NAs.<br>                       power &lt;- 0,<br>                       power &lt;- sum(temp$gross, na.rm = TRUE)/sum(!is.na(temp$gross))<br>                       )<br>                )<br>         )<br>  return(power)<br>  }</pre><br>和第二个版本相比有两个改进。一是power不需要事先定义全局变量power；二是不需要设置循环数n。把函数输出的结果赋值给power就可以了。让我们看看前1000行效果速度如何。</p>
+<p><pre class="EnlighterJSRAW" data-enlighter-language="null">system.time(<br>  power&lt;- apply(director[1:1000], 1, power.estimate, table=director, date=”date.release”, gross = “gross”, type=”director”)<br>  )  #计算前1000列，输出结果给power。</pre><br><img src="http://oj6t7o82y.bkt.clouddn.com/figure4.png" alt=""></p>
+<p>1000列只花了2.39秒！和第二个版本相比，速度又快了一倍还不止。算完整个导演表和演员表，分别只需要<strong>40分钟</strong>和<strong>2个半小时</strong>。</p>
+<p>最后让我们总结一下三种版本的函数所需耗时吧。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/figure5.png" alt=""></p>
+<p><strong>结论：</strong>当需要遍历大表计算某个变量时，一定要用data.table包和apply组函数！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/04/rlearning/" data-id="cjbquk0ri000fg48vmzhwhmek" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/R/">R</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apply/">apply</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-frame/">data.frame</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-table/">data.table</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-montreal375" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/25/montreal375/" class="article-date">
+  <time datetime="2017-05-25T14:51:23.000Z" itemprop="datePublished">2017-05-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/见闻/">见闻</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/25/montreal375/">375周年的蒙特利尔</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>5月17日是蒙特利尔（Montréal）建城375周年，客居此地的我们也参加了几场活动。当然一开始怀着的是看客的心态，但当见证了欢快的人群，缤纷的游行队伍后，居然还产生了几分感动。<br>17日晚上有Jacques Cartier Bridge（雅克·卡蒂埃大桥）的亮灯仪式。市政当局提前把卡蒂埃大桥上装上了七彩的灯光，年前曾有本地报纸指这一活动需耗资三千九百万加元。想当然尔，许多人对这种一次性的捯饬提出了激烈的批评。但当灯光闪亮起来之后，纳税人干瘪的荷包都被我们暂时抛诸脑后了。七彩霓虹面前，口袋空空暂也无妨。网站上说老港（Old Port）的钟楼附近观景效果最好，我和阿七提前两个小时就散步到了现场。到了现场，草地上全是黑压压的人影，方知蒙特利尔居然还有这么多人。大桥从9:45开始变换色彩，一直持续到了10:15。语言单薄，不能形容光影渐变的美感。</p>
+<blockquote>
+<p><a href="http://www.cbc.ca/player/play/946691651711" target="_blank" rel="noopener">http://www.cbc.ca/player/play/946691651711</a><br>CBC的报道里记录了亮灯的过程。欲知详情，请点链接。配合大桥光影变化的音乐是蒙特利尔交响乐团实时演奏的。我和阿七的手机连不上电台频段，因此只能欣赏了一段哑巴MV。一曲终了后现场燃放起了烟花，烟花绽放了三次，我们在现场猜测总共演奏了三首曲子。</p>
+</blockquote>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/pont-jacques-cartier-375e-montreal-3-jpg.jpg" alt=""></p>
+<p>图片来源：<a href="http://www.cbc.ca/news/canada/montreal/montreal-375-weekend-photos-1.4126252" target="_blank" rel="noopener">http://www.cbc.ca/news/canada/montreal/montreal-375-weekend-photos-1.4126252</a></p>
+<p>到了周五，我们登上了皇家海军“蒙特利尔”号护卫舰HMCS Montréal (FFH 336)上参观。从老港看过去，军舰并不显得很大。维基百科里记录这艘护卫舰满载排水5032吨，舰长134.2米，和中国的052C型驱逐舰差不多。上舰之前没有人检查我们ID，上舰之后也没有人跟随我们。我们早已在各方面领教了加拿大人的开放，所以也不感到吃惊。我们依次走过了前甲板、舰桥、舰桥下的仓库（猜测是机库）、后甲板。在机库里，我和阿七都试了试他们装备的手枪（当然是退了弹的）。阿兵哥教我们如何上膛、扣扳机。可惜忘了问手枪的型号。</p>
+<p>下船时一个officer给了我们两面小旗子，我把一面旗子递给他，合影留念了一张。旗子上是加拿大150周年的纪念logo，今年不仅是蒙特利尔375周年，也是加拿大150周年纪念。从这里可以看出属于国家的皇家海军（Royal Canadian Navy）和蒙特利尔市政府视角上的细微差异。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/canada150.JPG" alt=""></p>
+<p>走出老港又碰上牵线木偶大游行。今年的牵线木偶有两个，一个是Little-Girl Giant（巨人小姑娘），另一个是Deep Sea Diver（深海潜水员）。前者是后者的侄女，后者足足有10米高。某个春日的早晨，深海潜水员从圣劳伦斯河里浮出水面，第一次踏上美洲大地，不一小会，小女孩从船上下来，牵着小狗寻找潜水员叔叔的下落……以上都是我事后在新闻中看到的故事梗概，没有事先提醒，天知道他们真的在街头上演剧。</p>
+<p>所以当我看着他们在大街上“缓步前行”时，我想到的是……进击的巨人。木偶是用起重机之类的东西吊着前行的，随着牵线绳的变化，木偶时而招手，时而顾盼，甚至胸脯都有呼吸起伏的变化。在木偶行进过程中，有穿着古装的表演者吊着绳子从平台上荡下。DJ在起重机后的车上奋力打碟，围观人群欢呼不断。说实话，我和阿七都觉得缓步前进的木偶有点惊悚。尤其是当看到黑洞洞的眼睛、关节处的接榫、错综复杂的线时……亚洲小朋友看到了，确定晚上不会做噩梦？</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/montreal375marionettes.jpeg" alt=""></p>
+<p>图片来源：<a href="http://montrealgazette.com/news/local-news/giants-take-over-downtown-old-montreal-starting-friday" target="_blank" rel="noopener">http://montrealgazette.com/news/local-news/giants-take-over-downtown-old-montreal-starting-friday</a></p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/montreal375marinettes2" alt=""></p>
+<p>图片来源：<a href="http://www.rcinet.ca/en/2017/05/19/marionettes-coming-to-life-in-a-giant-way-in-montreal/" target="_blank" rel="noopener">http://www.rcinet.ca/en/2017/05/19/marionettes-coming-to-life-in-a-giant-way-in-montreal/</a></p>
+<p>周五晚上则观看了以蒙特利尔历史为主题的多媒体水上灯光表演。毛皮商人、枫糖浆、啤酒厂、酒馆、加拿大人队（Canadiens），这些蒙特利尔的历史记忆在水幕上又重现了出来。我们不是蒙特利尔人（Montrealer），对于这些历史符号并不敏感。但是想到这些寻常的生活符号仍然保存在蒙特利尔人心头，不由得有些感动。除了这些生活记忆，蒙特利尔历史上的高光时刻也在灯光下重现。1967年世博会，1976年奥运会，蒙特利尔地铁的修建，downtown建筑群的出现……以往的荣耀和现今的落寞（后者是我的诛心之论）形成对比，不由得让人感慨。</p>
+<p>返家的途中在地铁站看到了375周年的海报。发现我们不经意间把主要活动都参观了一遍。哈！待到400周年的时候，不知这座美丽的城市会变成什么样呢。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/montreal375post.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/25/montreal375/" data-id="cjbquk0r20008g48v2x8hqazn" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-us-mgmt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/14/us-mgmt/" class="article-date">
+  <time datetime="2017-01-14T18:44:54.000Z" itemprop="datePublished">2017-01-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/观点/">观点</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/14/us-mgmt/">美国人的“数目字管理”</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>最近在找有意思的数据，以供博士论文使用。在我所在的领域，有一套新颖的、详实的数据非常重要。用我导师的话说，是“奠定毕业之后第一份教职的前景”的事情。当年他用一套投资银行的数据连发了好几篇文章，终于有了在学术界安身立命的资本。他的现身说法让我更加决心找一套有意思的数据来。</p>
+<p>等实际开始搜索，才知道数据这东西和买牛仔裤是差不多的。找了个腰身合适的裤子，裤脚又窄了；找到裤脚刚好的款式，颜色又太老土；好不容易找到款式、尺码、颜色都合适的吧，满大街都是同款。找了好几个有意思的数据库，却发现关键变量总是有缺失的；改变思路找信息特别详尽的，却发现别的人已经用这种数据发了好几篇文章了。一个星期下来，搜索技术大有精进，合适的数据却毫无踪影。</p>
+<p>去图书馆翻多了，有一些有意思的观察。比如说美国人（以及他们的小邻居加拿大人）在“数目字管理”上的工作卓越无比，不由得让人佩服。“数目字管理”是从《万历十五年》里学到的词汇。黄仁宇总结认为，明朝之所以走向灭亡，是因为帝国政府缺乏“数目字管理”的能力。公卿大夫言必称义理，对于具体的管理事务一窍不通，无法对租税、漕运、诉讼、兵役之类关系到帝国政府存亡的事务进行有效管理。豆瓣上有一个书评对数目字管理做了到位的评论，感兴趣的读者可以移步观赏：</p>
+<blockquote>
+<p><a href="https://book.douban.com/review/5081822/" target="_blank" rel="noopener">https://book.douban.com/review/5081822/</a><br><img src="http://oj6t7o82y.bkt.clouddn.com/1587,%20a%20Year%20of%20No%20Significance.jpg" alt="">以黄仁宇的观点，美国人对于“数目字管理”上可谓成效斐然。美国政府在1981年1986<br>年每年都出版一套Directory of Chinese Officials（《中国政府官员目录》），这套目录包括《省级政府》《中央政府》《教育、文化、科技、情报机构》等分册。我粗粗翻了一下，在省级政府分册里每个省的四大班子成员都悉数收录。比如在安徽省的分册里，你甚至可以找到当年安徽省委候补委员的全部名录。不仅中国，美国对于朝鲜、苏联、罗马尼亚等社会主义阵营的国家也做了详实的信息收集，这些数据每年更新，成为了美国国务院、白宫、国会山决策的重要依据。</p>
+</blockquote>
+<p>不仅是政府，在民间人们对于信息收集、整理、发布也十分重视。在1918-1920期间，在美国发行了一本目录叫Standard Directory of Cottonseed Oil Mills and Allied Industries（《棉花籽油磨坊及其相关行业标准目录》）。从冗长的名字就可以知道，这是一个相当细分的行业。这是一个私人公司出版的目录，里面包含了全美各地所有棉花籽油相关企业的信息。通过这本目录，可以知道每家企业的地址、主营业务、磨坊数量、管理团队等。这个目录只是我最近看过的无数目录中的一个。在制造、新闻、金融等行业，这样的行业目录甚至可以上溯到19世纪80年代。</p>
+<p>“数目字管理”只是表象，背后是清晰的产权制度和对技术管理的崇拜。在中国历史上是没有“技术官僚”的。即便是潘季驯这样的水利专家和徐光启这种开明文人，也只能通过科举取仕获得委任。另一方面，产权制度不清晰导致激励缺失，最后社会治理就成了一笔糊涂账。为了征收税银，朱元璋时代政府制定了“鱼鳞册”，以记录土地形状与面积。这样的鱼鳞册从明初用到了明末，接近300年间各地耕地面貌早已大变，以致最后根本不敷使用。没有数目字管理，产权制度就不可能清晰；没有清晰的产权制度，人们缺乏激励只能扯皮。</p>
+<p>最后说一说我看到的最奇葩的目录：The Directory of Directories（《目录的目录》）。这种目录专门收录市面上出版的其他目录，给需要寻找目录的人作为参考。比如，在20世纪初，你作为一个磨坊商人想知道全国的小麦销售商的信息，但是你是一个新手，怎么获取信息呢？这种情况下，你不妨先购买一本《目录的目录》，研究一下市面上有哪些农产品销售目录出售；待你知道需要哪一本目录后，你再去买一本专门的小麦销售商目录。就这样，一个初出茅庐的商人，不依靠私人信息，不依靠政府关系，都能顺利完成一笔（不一定获利的）交易。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/14/us-mgmt/" data-id="cjbquk0ri000ig48v456ijg9t" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-cuba" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/03/cuba/" class="article-date">
+  <time datetime="2017-01-03T18:24:24.000Z" itemprop="datePublished">2017-01-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/见闻/">见闻</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/03/cuba/">古巴行记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>中国到古巴没有直航，所以到这里的中国游客还不多；过去50年里美国对古巴实施禁运政策，所以在这片土地上美利坚人也是稀缺物种；最喜欢到访这里的是加拿大人。考虑到加拿大漫长的冬天，去热带岛国消磨一周也许是不错的选择。</p>
+<p>那就去罢。这回我们会在巴拉德罗（Varadero）待上七天，途中去一趟首都哈瓦那（Le Habana）。巴拉德罗是度假胜地，距离哈瓦那两小时车程。航班夜里十点到达了巴拉德罗机场，这个机场大概只有中国县城里的客运站规模，但是打扫还算干净。海关人员照例是运作缓慢的，态度倒很友好。出机场后发现旅行社的工作人员已经等候很久了，我们是最后上大巴的。有人为我们腾出了位置，车里充满了快活的空气。</p>
+<p>这趟大巴上都是从魁北克来的游客。负责接待的女士象征性的问了“大家是说英语(anglais)还是说法语(français)？”之后就开始说起了法语（与此同时我默默放下了举起的右手）。阿七这学期刚开始学法语，我要伊听听她说了什么。伊听了半天，只听出零星的单词。这里的人说的法语都夹杂着浓重的西班牙口音，大概同属拉丁语系容易学习吧。一对说法语的老夫妇非常友好，用英语（挣扎着）告诉我们该下一站下，说完他们就蹒跚的下车了，祝他们旅途愉快。</p>
+<p>终于到达酒店，一个小伙子领我们到了房间，然后照例告诉我们各样电器开关在哪里。我对他对于保险箱的详尽介绍非常满意——显得我们非常需要保险箱的样子。天色已晚，希望明天是个好天气。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000003.JPG" alt=""></p>
+<p>来之前我们看到天气预报里说巴拉德罗连续几天都是多云天气，故而非常担心。来之后方知古巴的多云和蒙特利尔（Montreal）的多云是不一样的——以后七天每天都是这样的重复。天气一如古巴人民的乐天性格。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000026.JPG" alt=""></p>
+<p>第一天我们去沙滩边找小草棚（palapa）躺了半天，隔壁伞下的小哥拿了一本纵横字谜（crossword puzzle）在玩，他似乎也不下水，只是玩字谜和看书。后来几天里我们又看到了他好几次。在古巴上网很不方便，游客们都用90年代以前的方式娱乐自己。我带了电子书和杂志，意外地发现古巴是适合看书的地方。阿七看完了凌力的《少年天子》，看罢感叹道怪不得茅盾文学奖作品那么多改编成电视剧的。</p>
+<h1 id="艺术尚未贬值"><a href="#艺术尚未贬值" class="headerlink" title="艺术尚未贬值"></a>艺术尚未贬值</h1><p>音乐是古巴人赖以生存的氧气。吃饭的时候会有小乐团伴奏。他们的演唱很有爵士风格，用西语演唱，但是加上了古巴传统的乐器。每餐必唱的是Guantanamera，这是一首抒情的爱国歌曲。每到副歌部分，不同声部的男声一起合唱，像自动加了混响一样动听。晚上在房间里，我发现有一个台一直在播放音乐节目，大多是现场演出，估计这些音乐的受众不少。</p>
+<p>考虑到小乐团献唱有获取小费的动机，普通人是不是真爱音乐呢？我亲眼看到餐厅里的服务员端着餐盘，听到乐团歌唱后开始即兴摇摆，他们可以一边唱，一边扭，一边把客人点的饮料送到桌前。水准不论，他们（往往是即兴展现）的表现力都很棒。</p>
+<p>在去哈瓦那的路上，导游花了不少篇幅介绍古巴的音乐。在古巴，最著名的乐团 叫Los Van Van，曾荣获格莱美奖。由于计划经济的关系，在古巴平均主义盛行，一个乐团的乐手挣得不比医生少多少，这在加拿大简直是不可想象的。</p>
+<p>哈瓦那的旧城里有很多富丽堂皇的建筑，据导游说旧时都是古巴有产阶级的地产。古巴革命后，政府没收了他们的全部财产，除了选择极小部分“可靠”的人住进这些房子外，大部分富丽堂皇的建筑改造成了公共设施。我们看到许多漂亮的私宅现在成了办公楼、小学、医院、博物馆、以及画廊。古巴政府对于艺术的态度大概是支持的。路边还有画摊销售私人画作，我不懂绘画，不敢妄评。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000019.JPG" alt=""></p>
+<h1 id="哈瓦那和巴拉德罗"><a href="#哈瓦那和巴拉德罗" class="headerlink" title="哈瓦那和巴拉德罗"></a>哈瓦那和巴拉德罗</h1><p>我们在哈瓦那呆了一天，导游看上去富有经验。他的法语比英语说得好很多，英语尚可接受。把他的西班牙式法语和英语结合起来，我们竟也得到不少有效的信息。从他的介绍看来，他对古巴政府隐含了不少指摘之意，大概是认为只有少数人得到了旅游业发展的好处吧。哈瓦那是一座新旧交错的城市。在与游客接触的地方，大部分房子都修缮一新；但是当我们穿过几条背街小巷后，革命后的破败和萧条就展现在我们眼前了。有趣的是，导游并不避讳这一点，甚至在导游词里提醒我们注意这一现实。他们似乎没有粉饰的习惯，这一点我很欣赏。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000009.JPG" alt=""></p>
+<p>革命前这里是哈瓦那的证券交易所，在圣弗朗西斯科广场（Plaza de San Francisco）北侧。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000021.JPG" alt=""></p>
+<p>走到一个角落的时候他和我攀谈了起来，当他得知我们来自中国时非常惊讶，我告诉他我们是在加拿大的留学生。走过有一座广场后，导游把全团带到了一个雪茄店，开始帮助店家推销雪茄烟。有几个加拿大人买了。此时导游走到我和阿七身边，悄悄做了一个摆手的手势。我方知道是告诉我们“不要买”。我告诉他我们不抽烟，他低声笑道“那太好了”。大概是觉得中国人感情上更值得亲近吧。这个私有信息靠的是我们的民族身份得到的，有一些感慨。</p>
+<p>古巴人不富裕，即使是首都哈瓦那里也有很多破败的建筑——更神奇的是还有居民住在里面。导游说这些房子都是国有的，私人没有实力也没有动机去修缮房屋。当国家无力修缮房屋时，居民也就任由它去了。有许多房子自从1959年后就没有修缮过，一旦有台风地震十之八九会倒塌。</p>
+<p>古巴街头仍然开着许多老爷车，凯迪拉克，雪铁龙、奔驰、前苏联的拉达，你可以想到的老爷车款式这里都可以找到。一开始我很诧异这些车的车况是如何保证的。导游告诉我们，古巴革命后，政府规定1959年以前的车辆允许自由买卖，1959年革命后的新车私人不能购置——所有的新车都是国有的，直到最近几年才取消了这一禁令。但是私人总有购置车辆的需求，如何解决呢？古巴人于是把1959年前的旧老爷车只保留车壳，里面所有的零件——发动机、邮箱、轴承，全部都是从新车里拆下来的，这样旧车也可以像新车一样交易了。一台凯迪拉克的老爷车可能用的是丰田的引擎和现代的轮胎。和资本主义世界的人一样，古巴人规避政策限制的本领是与生俱来的。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000020.JPG" alt=""></p>
+<p>近些年古巴也出现了私人生意，我们在哈瓦那用1 CUC （一种游客使用的古巴货币，类似于中国80年代的外汇券）买了一个椰子。卖椰子的大叔看到我们像中国人，笑着用手指了指他放吸管的杯子说“chinos”。我们一看，上面印了个东方面孔的小女孩，大概他是说他的杯子上也有个中国女孩吧。杯子可能是从中国进口的。我们在宾馆里还看到一个大叔摆摊卖旅游纪念品，他每次看到都会找我们攀谈，让我们玩他卖的工艺品。我问这是不是他自己的生意，他说是的，每个月他会给政府交税换取许可。想必卖椰子的生意也是一样。</p>
+<p>我们还在巴拉德罗买了两个冰箱贴。冰箱贴质量很次，图案粗糙，几乎没有磁力，也不像义乌产的。看来古巴日用品的水平还比较低。物资匮乏还表现在了巴拉德罗的超市里。走进一家超市后，我们发现产品种类非常单一。一长条货架全都是一个品牌的饼干，草莓味的可以摆两米长的一排，另起一排发现还是饼干，只是口味改成了巧克力味。一眼扫过货架，发现同一品牌不同口味的饼干摆成了几条长龙。超市面积不小，但是我们十分钟就逛完出来了。考虑到巴拉德罗是游客度假区，物价都是面对游客的，普通古巴人能不能买得起这些商品还是未知数。</p>
+<p>鉴于古巴物资匮乏的事实，不得不让人担心有限的资源会不会产生腐败的问题。计划时代的中国里，走后门是获得资源的一大途径。在古巴是不是一样呢？我做过一段时间的企业国际化研究，对透明国际的清廉指数比较熟悉。在2015年的清廉排名里，古巴位于56位，比希腊（58），意大利（61），南非（61）都要清廉。作为对比，印度、巴西排在76位，中国排在了83位，俄罗斯排在119位。古巴整体比金砖四国表现要好。</p>
+<h1 id="十人十色"><a href="#十人十色" class="headerlink" title="十人十色"></a>十人十色</h1><p>我们遇到的古巴人都很乐观，他们面对游客时总是微笑着。扣除掉他们身为旅游业者的职业因素，余下的真诚仍然非常可观。有个叫John的小哥听说我们来自中国以后，立马用他认为的汉语跟我们问好。经过阿七鉴定，我们认为他可能说的是广东话。后来我们聊到他的女朋友，他笑着说他下个月就要结婚了，准备去教堂办婚礼。卖纪念品的大叔一个劲地跟我们说中国食物好吃，只是他不能经常吃到。</p>
+<p>度假村里也有不少来自欧洲的游客。有一个叫Jack的小男孩看到我和阿七打台球，要求和我战上一局，待我赢了以后，以后每次他都只叫阿七跟他打了。问他为什么专挑阿七，他说阿七和他打更平分秋色一点更有意思。他来自英格兰，这回是和父母、姐姐、妹妹一起来度圣诞假的。还有一个北爱尔兰大叔每晚都和卖纪念品的大叔聊天，后来我们也加入了进去。他很高兴有人可以听他对于英国监狱圈养犯人不让犯人“劳改”的不满了。后来他又跟我们聊起了他去过的城市，推荐我们一定要去爱尔兰一次。我告诉他中国互联网上流传着在爱尔兰不同年限的结婚证价格不同的故事，他告诉我们“这是假的”。</p>
+<p>第二天我们在大堂里看到了他和他妻子，他穿着泳裤，但奇怪的是没有下水，我问他怎么穿了装备却不下水？他哀怨地指着他的妻子说，他来了一个多星期了，一直没下，Boss不喜欢水，所以不让。</p>
+<p>根据网络流言的说法，他应该和他老婆领了年限200年的结婚证。</p>
+<h1 id="信仰和未来"><a href="#信仰和未来" class="headerlink" title="信仰和未来"></a>信仰和未来</h1><p>当然地，在古巴，切·格瓦拉的身影随处可见。多半时候他戴贝雷帽的形象被印在T恤、书籍、和工艺品上。相比之下，卡斯特罗的形象倒几乎见不到。我在行李里塞了一本《经济学人》准备在沙滩上读，恰好看到了一篇总结卡斯特罗的文章。这本自由派旗手杂志形容卡斯特罗“小心翼翼地阻止了过于明显的个人崇拜”（He was careful to discourage an overt personality cult）。这个形容准确极了，在哈瓦那我只看到了一个他的雕塑。而切·格瓦拉和古巴民族英雄马蒂（José Martí）的雕塑就随处可见。与此同时，卡斯特罗建立的父权式统治深入人心，所有古巴人（包括古巴的官方报纸）都把卡斯特罗形容成父亲一样的人物。和菲德尔（Fidel）相比，他的弟弟劳尔（Raúl）的威望要低得多。哈瓦那的书店里堆满了面向外国游客的书籍，关于切·格瓦拉的生平毫无疑问是最多的，菲德尔的次之，关于劳尔的书我只看到了一本。</p>
+<p>劳尔已经宣布2018年他任期满后将会辞去职务，未来古巴会如何还是未知数。凭着古巴人的快乐和专注，他们值得过远比现在更好的生活。</p>
+<p><img src="http://oj6t7o82y.bkt.clouddn.com/00000025.JPG" alt=""></p>
+<p>回程的飞机在晚上起飞，因此我们提前两个小时就到了机场。口袋里还剩下十几个CUC没有用完，我们决定买点东西把钱花干净。在免税店里，我们看到了古巴最好的朗姆酒“Havana Club”，一瓶只售6.95 CUC（约50人民币），我们很欣喜地买了一瓶。又走到另一家店，看到一个做工相对精美的冰箱贴，仔细一看，价格是7 CUC，大为惊骇。我问售货员为什么冰箱贴卖这么贵，她用国营商店服务员的眼神看着我，说了一个词：“纪念品。”</p>
+<p>大概什么时候纪念品和朗姆酒的价格能够符合市场规律，古巴人民就能摆脱物资匮乏了吧。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/03/cuba/" data-id="cjbquk0r20005g48v28bjun1z" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-hello-world-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/02/hello-world-1/" class="article-date">
+  <time datetime="2017-01-02T11:57:21.000Z" itemprop="datePublished">2017-01-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/其它/">其它</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/02/hello-world-1/">Hello world!</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+<p><img src="http://yang7.net/wp-content/uploads/2017/01/background-1024x576.jpg" alt=""></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/02/hello-world-1/" data-id="cjbquk0r20007g48vxeshjjtd" class="article-share-link">分享</a>
       
       
       
@@ -145,9 +585,23 @@
     
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title categories">分类</h3>
+    <div class="widget" id="categories">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/其它/">其它</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/学术/">学术</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/见闻/">见闻</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/观点/">观点</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title tagcloud">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AOM/" style="font-size: 14px;">AOM</a> <a href="/tags/PhD/" style="font-size: 14px;">PhD</a> <a href="/tags/R/" style="font-size: 14px;">R</a> <a href="/tags/apply/" style="font-size: 14px;">apply</a> <a href="/tags/data-frame/" style="font-size: 14px;">data.frame</a> <a href="/tags/data-table/" style="font-size: 14px;">data.table</a> <a href="/tags/学术/" style="font-size: 14px;">学术</a> <a href="/tags/管理学/" style="font-size: 14px;">管理学</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -159,6 +613,22 @@
             <a href="/2017/12/27/hello-world/">Hello World</a>
           </li>
         
+          <li>
+            <a href="/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/">R语言data.table包中的一个小坑</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/10/aom2017/">参加AOM年会是什么样的体验</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/04/rlearning/">一次R语言代码优化经历</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/25/montreal375/">375周年的蒙特利尔</a>
+          </li>
+        
       </ul>
     </div>
   </div>
@@ -168,7 +638,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
