@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="这篇文章是受这个问题的启发而诞生的（社科类博士新生如何开始搭建自己的数据库？），有疑惑的同学也可以参考这个帖子，里面有些很有见地的答案。 我思考了很久，觉得对于社会科学领域的研究者来说，还是用“数据集（dataset）”这个词更为合适。原因一：社会科学领域的论文的数据量普遍不大，很少有超过10万个的；原因二：鉴于数据量小，不一定需要使用数据库软件进行管理；原因三：构建自己数据集的难点在于找到和研究">
+<meta name="keywords" content="PhD,social science,database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="社科类博士生如何构建自己的数据集？">
+<meta property="og:url" content="http://yoursite.com/2018/03/22/database-phd/index.html">
+<meta property="og:site_name" content="杨颉 (Jie Yang)">
+<meta property="og:description" content="这篇文章是受这个问题的启发而诞生的（社科类博士新生如何开始搭建自己的数据库？），有疑惑的同学也可以参考这个帖子，里面有些很有见地的答案。 我思考了很久，觉得对于社会科学领域的研究者来说，还是用“数据集（dataset）”这个词更为合适。原因一：社会科学领域的论文的数据量普遍不大，很少有超过10万个的；原因二：鉴于数据量小，不一定需要使用数据库软件进行管理；原因三：构建自己数据集的难点在于找到和研究">
+<meta property="og:updated_time" content="2018-03-23T03:42:53.855Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="社科类博士生如何构建自己的数据集？">
+<meta name="twitter:description" content="这篇文章是受这个问题的启发而诞生的（社科类博士新生如何开始搭建自己的数据库？），有疑惑的同学也可以参考这个帖子，里面有些很有见地的答案。 我思考了很久，觉得对于社会科学领域的研究者来说，还是用“数据集（dataset）”这个词更为合适。原因一：社会科学领域的论文的数据量普遍不大，很少有超过10万个的；原因二：鉴于数据量小，不一定需要使用数据库软件进行管理；原因三：构建自己数据集的难点在于找到和研究">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>社科类博士生如何构建自己的数据集？</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">主页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/03/22/strgy-learners/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/03/22/institutional-theory/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/22/database-phd/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/22/database-phd/&text=社科类博士生如何构建自己的数据集？"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/22/database-phd/&is_video=false&description=社科类博士生如何构建自己的数据集？"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=社科类博士生如何构建自己的数据集？&body=Check out this article: http://yoursite.com/2018/03/22/database-phd/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/22/database-phd/&name=社科类博士生如何构建自己的数据集？&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#研究问题（灵感）从何来？"><span class="toc-number">1.</span> <span class="toc-text">研究问题（灵感）从何来？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#必备软件？"><span class="toc-number">2.</span> <span class="toc-text">必备软件？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#需要掌握的编程技术有哪些？"><span class="toc-number">3.</span> <span class="toc-text">需要掌握的编程技术有哪些？</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        社科类博士生如何构建自己的数据集？
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">杨颉 (Jie Yang)</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-03-23T03:41:36.000Z" itemprop="datePublished">2018-03-22</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/PhD/">PhD</a>, <a class="tag-link" href="/tags/database/">database</a>, <a class="tag-link" href="/tags/social-science/">social science</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>这篇文章是受这个问题的启发而诞生的（社科类博士新生如何开始搭建自己的数据库？），有疑惑的同学也可以参考这个帖子，里面有些很有见地的答案。</p>
+<p>我思考了很久，觉得对于社会科学领域的研究者来说，还是用“数据集（dataset）”这个词更为合适。原因一：社会科学领域的论文的数据量普遍不大，很少有超过10万个的；原因二：鉴于数据量小，不一定需要使用数据库软件进行管理；原因三：构建自己数据集的难点在于找到和研究问题（通常是博士论文）契合的数据集，而不是使用何种技术去管理数据。</p>
+<p>我个人的看法是在构建数据集时，研究问题 &gt; 软件 &gt; 编程技术。学习编程技术不难，难在找到有意思的研究问题（research question）。</p>
+<h1 id="研究问题（灵感）从何来？"><a href="#研究问题（灵感）从何来？" class="headerlink" title="研究问题（灵感）从何来？"></a>研究问题（灵感）从何来？</h1><p>有趣的研究问题最为难得。有的人喜欢从现实社会中寻找研究灵感，看看新闻报纸媒体都说了些什么，在找到灵感之后，再去图书馆查查看有没有现成的数据库能够验证自己的观点。这种方法的坏处是研究问题不容易收敛。当看到一个社会现象时，很容易想出一堆“随感”，但是把“随感”凝结成包含自变量、因变量、理论支撑的命题确很不容易。同时，要找到能够验证自己命题的现成数据库也很难。国内国外现在有一些现成的数据库，SDC， Datastream, Compustat，万德，CCER，瑞思等等。如果不想自己“制作”一套数据，就只能靠这些现成数据库了。</p>
+<p>另一种方法是读文献，看看你所在领域的学者都在做什么，用的是什么数据。举个栗子，做国际商务（International Business）的同学可能会经常看到使用日本企业对外直接投资（FDI）的论文。如果你看到有Kaigai Shinshutsu Kigyou Souran字样的数据，八成是IVEY的Paul Beamish主持的那套数据了。这套数据相当神奇。据说当年上过Beamish课的博士僧，只要想做对外直接投资的，都可以在征得Beamish同意的情况下用这套数据。这套数据帮（zheng）助（jiu）了许多苦海遨游的博士僧们。其中有许多还发表在顶级期刊上。这套数据使用的情况可以看IVEY列的一个清单（A Bibliography of Japanese Foreign Direct Investment Publications）。</p>
+<p>参考以往文献构建自己的研究问题的缺点是不容易想出原创命题。同时，使用的数据集由于用的人太多，审稿人（reviewer）往往非常熟悉数据的优缺点。他们可能提出的问题可能非常棘手，可能很难应付。在个别情况下，如果某个数据集用的人不是很多，使用和他们相同的数据集可能是一个较好的选择。举个栗子，有一些研究资源依赖理论（Resource dependence theory）、社会网路（Social network）、Power（这个不知道怎么翻）的论文用了一个很有趣的行业年鉴叫Advertising Redbooks（《广告行业小红书》）。这个年鉴是在美国出版的。几乎囊括了20世纪以来北美所有的广告公司（Advertising agencies）。这个数据曾经每个季度更新一次。对于每个广告公司，年鉴会列出它的主要客户。这个年鉴用于社会网络、权力等研究非常有用，至今每年还有新论文用了这套数据。</p>
+<p>使用这种数据也有缺点。毕竟有人用过它，一旦使用就有落入窠臼之嫌。另外，这类行业年鉴往往还没有电子化，整理数据需要大量的时间。</p>
+<p>第二种方法提示我们，如果想要获得原创数据，也许直接去图书馆会比较合适。这就是第三种方法：去图书馆散步。盎格鲁撒克逊文化似乎有编辑年鉴的传统，在北美任何一所大学的图书馆里，你总能找到各种稀奇古怪的年鉴。我曾经看到的稀奇古怪的年鉴如下：</p>
+<blockquote>
+<p>年鉴A，统计了19世纪美国全境的风车磨坊。</p>
+<p>年鉴B，供美国国务院使用，介绍了七十年代中国中央和各省市党政军领导人的信息。——七十年代中美关系方才缓和，美国人便开始收集中国各级政府领导人的个人数据。<br>年鉴C，介绍美国全境的各种工会组织，每年出版。<br>年鉴D，每年出版，介绍了加拿大政府资助的所有国产电影的基本情况，包括导演、主演、时长、剧情、上映时间等。</p>
+</blockquote>
+<p>第三种方法的好处是数据集是全新的，不用担心有人会用过。由于自己是这套数据集的唯一专家，你会非常熟悉这套数据的优缺点，在应付审稿人刁难时会更得心应手。与此同时，第三种方法的缺点也非常明显：电子化这些年鉴特别花时间。此时有必要用一些软件提高电子化效率。</p>
+<p>陈明哲（Ming-jer Chen）老师的航空业动态竞争数据就是这样一个例子。他的数据是完完全全从一本行业杂志上获得的（Aviation Daily）。用这套数据，他发了超过10篇顶级期刊，包括两篇ASQ、四篇SMJ、四篇AMJ、一篇MS等等。</p>
+<p>在决定使用没有人用过的年鉴编辑数据之前，一定要确认一个问题：我的研究问题使用现成的数据能够回答吗？如果不能，那么这套数据可以帮助我回答研究问题吗？只有在十分确定某个年鉴的价值，才可以考虑开始编辑这套数据。</p>
+<h1 id="必备软件？"><a href="#必备软件？" class="headerlink" title="必备软件？"></a>必备软件？</h1><p>如果数据是从现成数据库中下载得来的，那么用Excel就好了。有的数据库提供Excel插件，大大地方便了操作。有的数据库提供了接入STATA和R的API，可以在相应软件里直接下载。</p>
+<p>如果数据是从纸质年鉴里提取出来，那么需要使用OCR软件识别成文本。这里强烈推荐Abbyy FineReader。知乎里有许多讨论帖可以参考（OCR 中文识别用哪种软件识别率比较高？）。</p>
+<p>如果数据是爬虫爬出来的，爬虫用什么语言编的就用什么语言清洗数据。</p>
+<h1 id="需要掌握的编程技术有哪些？"><a href="#需要掌握的编程技术有哪些？" class="headerlink" title="需要掌握的编程技术有哪些？"></a>需要掌握的编程技术有哪些？</h1><p>数据量小时，一张Excel表就能解决问题。会编宏就可以了。编码的变量很多时，一张表已经容纳不下，那么就需要把大表拆成各种小表，中间用唯一的标识符连接。数据超过十万个时，可以考虑用数据库软件。如果熟练掌握MySQL语句，对于编辑数据库会有很大帮助。</p>
+<p>数据量大时，R和Python至少要掌握一种。R里面提供了许多数据清洗和数据库操作的包，例如dplyr，data.table之类，善加利用可以极大地提高生产力。</p>
+<p>如果数据来自于年鉴，那么大概率你是需要用到许多文本函数的。R里面自带的文本函数可以满足一般操作。如果不行，就上stringr。Python中的文本函数我不清楚，但我确信Python一定提供了可以匹敌的操作能力。</p>
+<p>如果数据来自爬虫，那么学习R或者Python就是必须的了。如果你能熟练抓取网页，那么数据清洗对你来说应该也不是难题。</p>
+<p>最后，分析数据，需要熟练掌握STATA、R、SAS、SPSS，任意一种均可。大部分人在学校都会有分析数据的训练，这里就不表了。</p>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">主页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#研究问题（灵感）从何来？"><span class="toc-number">1.</span> <span class="toc-text">研究问题（灵感）从何来？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#必备软件？"><span class="toc-number">2.</span> <span class="toc-text">必备软件？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#需要掌握的编程技术有哪些？"><span class="toc-number">3.</span> <span class="toc-text">需要掌握的编程技术有哪些？</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2018/03/22/database-phd/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2018/03/22/database-phd/&text=社科类博士生如何构建自己的数据集？"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2018/03/22/database-phd/&is_video=false&description=社科类博士生如何构建自己的数据集？"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=社科类博士生如何构建自己的数据集？&body=Check out this article: http://yoursite.com/2018/03/22/database-phd/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2018/03/22/database-phd/&title=社科类博士生如何构建自己的数据集？"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2018/03/22/database-phd/&name=社科类博士生如何构建自己的数据集？&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Jie Yang
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">主页</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
