@@ -7,14 +7,15 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="data.table包可以大幅度提高R语言数据处理速度，这个好处我在很久以前的一篇文章中提到过了（http://yang7.net/2017/06/04/rlearning/）。自从意识到读取大文件data.table的fread()比默认的read.csv()快多了之后，我就一直使用fread读csv文件。可是今天，我发现fread()隐藏了一个小坑，可能会改变数据结果。 事情经过是这样：我读取">
+<meta name="keywords" content="data.table,R,coding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="R语言data.table包中的一个小坑">
-<meta property="og:url" content="http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/09/08/trap-r-data-table/index.html">
 <meta property="og:site_name" content="杨颉 (Jie Yang)">
 <meta property="og:description" content="data.table包可以大幅度提高R语言数据处理速度，这个好处我在很久以前的一篇文章中提到过了（http://yang7.net/2017/06/04/rlearning/）。自从意识到读取大文件data.table的fread()比默认的read.csv()快多了之后，我就一直使用fread读csv文件。可是今天，我发现fread()隐藏了一个小坑，可能会改变数据结果。 事情经过是这样：我读取">
 <meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/rdatatable1.png">
 <meta property="og:image" content="http://oj6t7o82y.bkt.clouddn.com/rdatatable2.png">
-<meta property="og:updated_time" content="2017-12-28T18:46:06.388Z">
+<meta property="og:updated_time" content="2018-03-23T02:26:12.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="R语言data.table包中的一个小坑">
 <meta name="twitter:description" content="data.table包可以大幅度提高R语言数据处理速度，这个好处我在很久以前的一篇文章中提到过了（http://yang7.net/2017/06/04/rlearning/）。自从意识到读取大文件data.table的fread()比默认的read.csv()快多了之后，我就一直使用fread读csv文件。可是今天，我发现fread()隐藏了一个小坑，可能会改变数据结果。 事情经过是这样：我读取">
@@ -84,16 +85,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&text=R语言data.table包中的一个小坑"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&is_video=false&description=R语言data.table包中的一个小坑"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=R语言data.table包中的一个小坑&body=Check out this article: http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&name=R语言data.table包中的一个小坑&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/08/trap-r-data-table/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/08/trap-r-data-table/&text=R语言data.table包中的一个小坑"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/08/trap-r-data-table/&is_video=false&description=R语言data.table包中的一个小坑"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=R语言data.table包中的一个小坑&body=Check out this article: http://yoursite.com/2017/09/08/trap-r-data-table/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/08/trap-r-data-table/&name=R语言data.table包中的一个小坑&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -126,6 +127,11 @@
 
 
       
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/R/">R</a>, <a class="tag-link" href="/tags/coding/">coding</a>, <a class="tag-link" href="/tags/data-table/">data.table</a>
+    </div>
+
 
     </div>
   </header>
@@ -173,16 +179,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&text=R语言data.table包中的一个小坑"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&is_video=false&description=R语言data.table包中的一个小坑"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=R语言data.table包中的一个小坑&body=Check out this article: http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&title=R语言data.table包中的一个小坑"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/08/r-e8-af-ad-e8-a8-80data-table-e5-8c-85-e4-b8-ad-e7-9a-84-e4-b8-80-e4-b8-aa-e5-b0-8f-e5-9d-91/&name=R语言data.table包中的一个小坑&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/09/08/trap-r-data-table/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/09/08/trap-r-data-table/&text=R语言data.table包中的一个小坑"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/09/08/trap-r-data-table/&is_video=false&description=R语言data.table包中的一个小坑"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=R语言data.table包中的一个小坑&body=Check out this article: http://yoursite.com/2017/09/08/trap-r-data-table/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/09/08/trap-r-data-table/&title=R语言data.table包中的一个小坑"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/09/08/trap-r-data-table/&name=R语言data.table包中的一个小坑&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
